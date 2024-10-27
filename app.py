@@ -4,8 +4,8 @@ import pandas as pd
 
 # Set up the title and load the model
 st.title('Fraud Catcher.ML 🦹‍♂')
-model = joblib.load('/Users/liteshperumalla/Downloads/dat.pkl')
-sc=joblib.load('/Users/liteshperumalla/Downloads/d.pkl')
+model = joblib.load('dat.pkl')
+sc=joblib.load('d.pkl')
 
     
 
