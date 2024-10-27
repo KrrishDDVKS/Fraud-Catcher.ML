@@ -1,11 +1,10 @@
 import streamlit as st
 import pickle
+import joblib
 import pandas as pd
 st.title('Fraud Catcher.ML 🦹‍♂')
 
-with open('data_f.pkl', 'rb') as file:
-    model = pickle.load(file)
-
+model = joblib.load('random_forest_model.pkl')
 col1,col2 = st.columns([1,2])
 col1.title('Result: Fraud')
 a=[]
