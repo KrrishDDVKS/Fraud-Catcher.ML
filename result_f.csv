@@ -1,0 +1,5 @@
+model_name,model_param,score
+knn,{'n_neighbors': 1},0.9218883978206064
+logistic,"{'class_weight': {0: 1, 1: 5}, 'dual': False, 'penalty': None}",0.8227232594247837
+Random Forest,{'class_weight': 'balanced'},0.9797028776001426
+Naive Bayes,{},0.39389471231529216
