@@ -1,31 +1,49 @@
 import streamlit as st
-import pickle
 import joblib
 import pandas as pd
-st.title('Fraud Catcher.ML 🦹‍♂')
+from sklearn.preprocessing import StandardScaler
 
-model = joblib.load('random_forest_model.pkl')
-col1,col2 = st.columns([1,2])
-col1.title('Result: Fraud')
-a=[]
+# Set up the title and load the model
+st.title('Fraud Catcher.ML 🦹‍♂')
+model = joblib.load('/Users/liteshperumalla/Downloads/dat.pkl')
+sc=joblib.load('/Users/liteshperumalla/Downloads/d.pkl')
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+    
+
+col1, col2 = st.columns([1, 2])
+col1.title('Result:')
 
 with st.form('detection'):
-    options = ["PAYMENT", "CASH_OUT", "TRANSFER","DEBIT","‘CASH_IN"]
-    a.append(float(st.text_input('Amount','10.38')))
-    a.append(float(st.text_input('Originating old Balance','122.8')))
-    a.append(float(st.text_input('Originating new Balance','1001')))
-    a.append(float(st.text_input('Destintion old Balance','0.1184')))
-    a.append(float(st.text_input('Destintion new Balance','0.2776')))
-    a.append(st.selectbox("Choose an option:", options))
-    df=pd.DataFrame(a,columns=['amount','oldbalanceOrg','newbalanceOrig','oldbalanceDest','newbalanceDest','isFraud','type'])
-    df1 = pd.get_dummies(df1, columns=['type'])
-    predict=st.form_submit_button('predict')
-
-if predict:
-        t=model.predict(df1)
-        df1=[]
-        if t:
-            col2.title('Breast Cancer Diagnoised')
-            st.audio("witch.mp3", format="audio/mpeg",autoplay=True)
+    options = ['CASH_IN','CASH_OUT','DEBIT','PAYMENT','TRANSFER']
+    columns = ['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest', 'type_CASH_IN',	'type_CASH_OUT','type_DEBIT','type_PAYMENT','type_TRANSFER']
+    # Collect inputs
+    a = []
+    a.append(float(st.text_input('Amount', '1254092.1')))
+    a.append(float(st.text_input('Originating old Balance', '1254092.1')))
+    a.append(float(st.text_input('Originating new Balance', '0')))
+    a.append(float(st.text_input('Destination old Balance', '0')))
+    a.append(float(st.text_input('Destination new Balance', '1254092.1')))
+    transaction_type = st.selectbox("Choose a Payment Methods:", options)
+    # Create DataFrame with specified columns
+    for i in options:
+        if i == transaction_type:
+            a.append(1)
         else:
-            col2.title('Safe')
+            a.append(0)    
+    # Submit button
+    df = pd.DataFrame([a], columns=columns)
+    print(df)
+    s = sc.transform(df)
+    df1 = pd.DataFrame(s, columns=columns)
+    print(df1.head())
+    predict = st.form_submit_button('predict')
+
+# Prediction and result display
+if predict:
+    t = model.predict(df1)
+    print(t)
+    if t:
+        col2.title('Fraud Detected')
+    else:
+        col2.title('Safe Transaction')
