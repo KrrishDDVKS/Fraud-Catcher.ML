@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 st.title('Fraud Catcher.ML 🦹‍♂')
 
-with open('data.pkl', 'rb') as file:
+with open('data_f.pkl', 'rb') as file:
     model = pickle.load(file)
 
 col1,col2 = st.columns([1,2])
